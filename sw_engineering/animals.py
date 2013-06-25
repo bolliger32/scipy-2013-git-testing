@@ -1,44 +1,15 @@
 def mean_animals(filename, kind):
-    """
-    Calculates the mean number of a particular animal seen per sighting using
-    the data in the given file.
-
-    Parameters
-    ----------
-    filename : str
-        Path to file to use.
-    kind : str
-        Species of animal for which to calculate average
-        number seen per sighting.
-
-    Returns
-    -------
-    mean : float
-        Mean number of animal seen per sighting.
-
-    """
     date, time, species, count = read_animals(filename)
-    date, time, species, count = \
-        filter_animals_by_kind(kind, date, time, species, count)
+    date, time, species, count = filter_animals(kind, date, time, species, count)
     return mean(count)
-
 
 def read_animals(filename):
     """
-    Reads an animals.txt type file. Returns four lists, one per column.
+    Reads an animals type file. Returns four lists, one per column.
 
-    Parameters
-    ----------
-    filename : str
-        The name of an animals.txt type file.
+    Input is a filename.
 
-    Returns
-    -------
-    dates : list of str
-    times : list of str
-    species : list of str
-    counts : list of int
-
+    Order of returned items: date, time, species, count.
     """
     f = open(filename)
     dates = []
@@ -57,48 +28,27 @@ def read_animals(filename):
 
     return dates, times, species, counts
 
+
 def mean(nums):
-    """
-    Calculates the mean of a list of numbers.
+    total = 0
 
-    Parameters
-    ----------
-    nums : list of numbers
+    for n in nums:
+        total = total + n
 
-    Returns
-    -------
-    m : number
-
-    """
-    avg=None
-    if len(nums):
-        avg=float(sum(nums))/len(nums)
-    else:
-        print 'error empty list'
-    return avg
-        
+    return float(total) / len(nums)
 
 
-def filter_animals_by_kind(kind, date, time, species, count):
-    """
-    Filter the animals dataset to only include data for a given species
-    of animal.
+def filter_animals(kind, date, time, species, count):
+    fdate = []
+    ftime = []
+    fspecies = []
+    fcount = []
 
-    Parameters
-    ----------
-    kind : str
-        Species of animal to filter on.
-    date : list of str
-    time : list of str
-    species : list of str
-    count : list of int
+    for i in range(len(date)):
+        if species[i] == kind:
+            fdate.append(date[i])
+            ftime.append(time[i])
+            fspecies.append(species[i])
+            fcount.append(count[i])
 
-    Returns
-    -------
-    filtered_date : list of str
-    filtered_time : list of str
-    filtered_species : list of str
-    filtered_count : list of int
-
-    """
-    # fill this in
+    return fdate, ftime, fspecies, fcount
